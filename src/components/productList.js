@@ -1,10 +1,13 @@
 import React from 'react'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 import { urlApi } from './../support/urlApi'
 import './../support/css/product.css'
+import {AddToCart} from '../1.actions'
+import {connect} from 'react-redux'
 
 class ProductList extends React.Component{
-    state = {listProduct : []}
+    state = {listProduct : [], qty:0}
 
     componentDidMount(){
         this.getDataProduct()
@@ -14,11 +17,18 @@ class ProductList extends React.Component{
         .then((res) => this.setState({listProduct : res.data}))
         .catch((err) => console.log(err))
     }
+
+    onBtnATC=()=>{
+        this.setState({qty:this.state.qty+1})
+        var a=this.state.qty
+        AddToCart(a)
+        
+    }
     renderProdukJsx = () => {
         var jsx = this.state.listProduct.map((val) => {
             return (
                 <div className="card col-md-3 mr-5 mt-3" style={{width: '18rem'}}>
-                    <img className="card-img-top img" height='200px' src={val.img} alt="Card" />
+                    <Link to={'/product-detail/' + val.id}><img className="card-img-top img" height='200px' src={val.img} alt="Card" /></Link>
                     
                     {/* { Pake if ternary (karena melakukan pengkondisian di dalam return)} */}
 
@@ -38,8 +48,9 @@ class ProductList extends React.Component{
                     }
 
                     <p style={{display:'inline' , marginLeft:'10px',fontWeight:'500'}}>Rp. {val.harga - (val.harga*(val.discount/100))}</p>
-                    <input type='button' className='d-block btn btn-primary' value='Add To Cart' />
+                    <input onClick={this.onBtnATC} type='button' className='d-block btn btn-primary' value='Add To Cart' />
                     </div>
+                    {this.props.qty}
                 </div>
             )
         })
@@ -57,8 +68,14 @@ class ProductList extends React.Component{
     }
 }
 
-export default ProductList
 
+const mapStateToProps=(state)=>{
+    return{
+        qty:state.user.qty
+    }
+}
+
+export default connect(mapStateToProps,{AddToCart})(ProductList)
 
 
 // var a = 3

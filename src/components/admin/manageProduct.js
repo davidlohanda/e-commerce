@@ -183,8 +183,8 @@ class CustomPaginationActionsTable extends React.Component {
   };
   onBtnAdd =() => {
       var namaproduk = this.nama.inputRef.value
-      var harga = parseInt(this.harga.inputRef.value)
-      var discount = parseInt(this.discount.inputRef.value)
+      var harga = this.harga.inputRef.value
+      var discount = this.discount.inputRef.value
       var category = this.category.inputRef.value
       var img = this.img.inputRef.value
       var deskripsi = this.deskripsi.inputRef.value

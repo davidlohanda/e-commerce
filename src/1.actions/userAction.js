@@ -27,7 +27,8 @@ export const onLogin = (paramUsername,password) => {
                         payload : 
                         {
                              username : res.data[0].username,
-                             role : res.data[0].role
+                             role : res.data[0].role,
+                             id : res.data[0].id
                         }
                     }
                 )
@@ -48,6 +49,32 @@ export const onLogin = (paramUsername,password) => {
 }
 
 
+export const loginWithGoogle=(email)=>{
+    return(dispatch)=>{
+        axios.get(urlApi+'/users?username='+email)
+        .then((res)=>{
+            if(res.data.length>0){
+                dispatch({
+                    type:'LOGIN_SUCCESS',
+                    payload:res.data[0].username
+                }, objCookie.set('userData',email,{path : '/'}))
+            }else{
+                axios.post(urlApi+'/products',{username:email, role:'user'})
+                .then((res)=>{
+                    dispatch({
+                        type:'LOGIN_SUCCESS',
+                        payload:res.data
+                    },  objCookie.set('userData',email,{path : '/'}))
+                })
+                .catch((err)=>console.log(err))
+            }
+        })    
+        
+        .catch((err)=>console.log(err))
+    }
+}
+
+
 export const keepLogin = (cookie) => {
     return(dispatch) => {
         axios.get(urlApi + '/users',{params : {username : cookie}})
@@ -58,7 +85,8 @@ export const keepLogin = (cookie) => {
                     payload : 
                         {
                              username : res.data[0].username,
-                             role : res.data[0].role
+                             role : res.data[0].role,
+                             id : res.data[0].id
                         }
                 })
             }
@@ -108,6 +136,14 @@ export const userRegister = (a,b,c,d) => { // userRegister('fikri')
                 type : 'SYSTEM_ERROR'
             })
         })
+    }
+}
+
+
+export const AddToCart=(qty)=>{
+    return{
+        type:'ADD',
+        payload:qty
     }
 }
 userRegister('Fikri','123','fikri@gmail.com','0812381234')

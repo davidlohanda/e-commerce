@@ -1,8 +1,8 @@
-const INITIAL_STATE = {id : 0, username : "",error : "",loading:false, role : ""}
+const INITIAL_STATE = {id : 0, username : "",error : "",loading:false, role : "",qty:0}
 
 export default (state=INITIAL_STATE,action) => {
     if(action.type === 'LOGIN_SUCCESS'){
-        return {...INITIAL_STATE, username : action.payload.username, role : action.payload.role}
+        return {...INITIAL_STATE, username : action.payload.username, role : action.payload.role, id : action.payload.id}
     }else if(action.type === 'LOADING'){
         return{...INITIAL_STATE , loading : true}
     }else if(action.type === 'USER_NOT_FOUND'){
@@ -13,6 +13,8 @@ export default (state=INITIAL_STATE,action) => {
         return INITIAL_STATE
     }else if(action.type === 'USERNAME_NOT_AVAILABLE'){
         return {...INITIAL_STATE, error : 'Username not available'}
+    }else if(action.type==='ADD'){
+        return{...INITIAL_STATE,qty:action.payload }
     }
     else{
         return state

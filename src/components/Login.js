@@ -9,11 +9,13 @@ import cookie from 'universal-cookie'
 const Cookie = new cookie()
 class Login extends React.Component{
         
-    // KE TRIGER KALAU ADA PERUBAHAN PROPS YAITU GLOBAL STATE
-    componentWillReceiveProps(newProps){
-        console.log(newProps)
-        Cookie.set('userData',newProps.username,{path :'/'})
-    }
+    
+    
+  componentWillReceiveProps(newProps){
+    console.log(newProps)
+    Cookie.set('userData',newProps.username,{path :'/'})
+  }
+
     onBtnLoginClick = () => {
         var username = this.refs.username.value // fikri
         var password = this.refs.password.value // rahasia123
@@ -23,7 +25,7 @@ class Login extends React.Component{
     renderBtnOrLoading = () => {
         if(this.props.loading === true){
             return <Loader
-                    type="Audio"
+                    type="Circles"
                     color="#00BFFF"
                     height="50"	
                     width="50"

@@ -1,7 +1,7 @@
 import React from 'react'
 import Carousel from './carousel'
 import { connect } from 'react-redux'
-
+import ProductList from './productList'
 class Home extends React.Component{
     render(){
         return(
@@ -37,16 +37,25 @@ class Home extends React.Component{
                         <div className="my-4">
                             <Carousel />
                         </div>
-                        {this.props.id}
+                        
+                        {   this.props.username!==''?
+                            <div>
+                            <span style={{color:'blue',fontWeight:700,fontSize:'18px'}}>Selamat berbelanja, <span style={{textTransform:'capitalize',textDecoration:'underline'}}>{this.props.username}</span>!</span> 
+                            </div>
+                            :null
+                        }
+                        
                     </div>
                 </div>
+                <ProductList/>
             </div>
         )
     }
 }
 const mapStateToProps = (state) => {
     return{
-        id : state.user.id
+        id : state.user.id,
+        username: state.user.username
     }
 }
 
